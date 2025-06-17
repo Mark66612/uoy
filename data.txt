@@ -1,0 +1,57 @@
+-- Создание базы данных 
+CREATE DATABASE IF NOT EXISTS koro4ki CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+
+-- Таблица пользователей
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    fullname VARCHAR(255) NOT NULL COMMENT 'ФИО пользователя',
+    phone VARCHAR(20) NOT NULL COMMENT 'Телефон в формате +7(XXX)-XXX-XX-XX',
+    email VARCHAR(100) NOT NULL COMMENT 'Электронная почта',
+    username VARCHAR(50) UNIQUE NOT NULL COMMENT 'Уникальный логин (кириллица, min 6 символов)',
+    password VARCHAR(255) NOT NULL COMMENT 'Хэшированный пароль',
+    is_admin BOOLEAN DEFAULT FALSE COMMENT 'Является ли администратором',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'Дата регистрации'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Таблица курсов (справочник)
+CREATE TABLE courses (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL COMMENT 'Название курса',
+    description TEXT COMMENT 'Описание курса'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Таблица заявок
+CREATE TABLE applications (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL COMMENT 'ID пользователя',
+    course_id INT NOT NULL COMMENT 'ID выбранного курса',
+    start_date DATE NOT NULL COMMENT 'Желаемая дата начала обучения',
+    payment_method ENUM('Наличные', 'Банковский перевод') NOT NULL COMMENT 'Способ оплаты',
+    status ENUM('Новая', 'Идет обучение', 'Обучение завершено') DEFAULT 'Новая' COMMENT 'Статус заявки',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'Дата создания заявки',
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (course_id) REFERENCES courses(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Таблица отзывов
+CREATE TABLE reviews (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL COMMENT 'ID пользователя',
+    application_id INT NOT NULL COMMENT 'ID заявки',
+    content TEXT NOT NULL COMMENT 'Текст отзыва',
+    rating TINYINT(1) COMMENT 'Оценка от 1 до 5',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'Дата создания отзыва',
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (application_id) REFERENCES applications(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Добавляем администратора по умолчанию
+INSERT INTO users (fullname, phone, email, username, password, is_admin)
+VALUES ('Администратор', '+7(999)-999-99-99', 'admin@example.com', 'admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', TRUE);
+
+-- Добавляем тестовые курсы
+INSERT INTO courses (name, description) VALUES
+('Основы алгоритмизации и программирования', 'Базовый курс по программированию'),
+('Основы веб-дизайна', 'Введение в дизайн пользовательских интерфейсов'),
+('Основы проектирования баз данных', 'Изучение SQL и реляционных баз данных');
