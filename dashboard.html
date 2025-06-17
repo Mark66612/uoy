@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang='ru'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Личный кабинет - Корочки.есть</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- хедер -->
+        <div class="header">
+            <div class="logo">
+                <h1><i class="fas fa-graduation-cap"></i> Корочки.есть</h1>
+            </div>
+            
+            <div class="user-info">
+                <div class="avatar">И</div>
+                <div class="user-details">
+                    <h1>Половинкина Елена Олеговна</h1>
+                    <p>Личный кабинет</p>
+                </div>
+                <a href="login.html" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Выход
+                </a>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="left-column">
+                <!-- новая заявка -->
+                <div class="card new-application-card">
+                    <i class="fas fa-file-alt"></i>
+                    <h3>Создать новую заявку</h3>
+                    <p>Заполните форму, чтобы подать заявку на обучение по выбранному курсу</p>
+                    <a href="application_form.html" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Создать заявку
+                    </a>
+                </div>
+                
+                <!-- заявки -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title"><i class="fas fa-list"></i> Мои заявки</h2>
+                    </div>
+                    
+                    <div class="application-list" id="applications-list">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-column">
+                <!-- информация о пользователе -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title"><i class="fas fa-user"></i> Мой профиль</h2>
+                    </div>
+                    
+                    <div class="user-profile">
+                        <div class="form-group">
+                            <label>ФИО</label>
+                            <p>Половинкина Елена Олеговна</p>
+                        
+                        <div class="form-group">
+                            <label>Телефон</label>
+                            <p>+7(902)-123-45-67</p>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Email</label>
+                            <p>polov@example.com</p>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Логин</label>
+                            <p>pipenna</p>
+                        </div>
+                        
+                        <button class="btn btn-outline" id="edit-profile-btn">
+                            <i class="fas fa-edit"></i> Редактировать профиль
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title"><i class="fas fa-comments"></i> Мои отзывы</h2>
+                    </div>
+                    
+                    <div class="reviews-list" id="reviews-list">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
